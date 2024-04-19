@@ -31,10 +31,11 @@ public class RegistrationController {
 
     @PostMapping
     public ModelAndView regPost(@Validated @ModelAttribute CustomUserDTO userDTO,
-                                @NonNull HttpServletResponse response) throws IOException, CredentialException, InstanceAlreadyExistsException {
+                                @NonNull HttpServletResponse response) throws CredentialException, InstanceAlreadyExistsException {
         CustomUser user = userDetailsService.save(userDTO);
         response.addCookie(jwtTokenUtil.generateJWTCookie(user.getUsername(), user.getId().toString()));
-        response.sendRedirect("/");
+        response.setStatus(302);
+        response.setHeader("Location", "/");
         return null;
     }
 }

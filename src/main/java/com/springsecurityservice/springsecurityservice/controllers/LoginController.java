@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,17 +37,18 @@ public class LoginController {
     public ResponseEntity postLoginPage(@RequestParam("Username") String username,
                                         @RequestParam("Password") String password,
                                         HttpServletResponse response,
-                                        HttpServletRequest request) throws IOException {
+                                        HttpServletRequest request){
         Authentication token =
                 new UsernamePasswordAuthenticationToken(username, password, List.of(new SimpleGrantedAuthority("ROLE_USER")));
         token.setAuthenticated(false);
 
         token = customAuthenticationManager.authenticate(token);
         if (token instanceof AnonymousAuthenticationToken) {
-            response.sendRedirect("/login?error");
+            throw new AuthenticationCredentialsNotFoundException("incorrect password");
         } else {
             response.addCookie(jwtTokenUtil.generateJWTCookie(token.getPrincipal().toString(), token.getCredentials().toString()));
-            response.sendRedirect("/");
+            response.setStatus(302);
+            response.setHeader("Location", "/");
         }
 
         return ResponseEntity.ok(response);

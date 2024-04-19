@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -17,35 +18,33 @@ import java.io.IOException;
 
 @ControllerAdvice
 public class TestExceptionHandler implements AccessDeniedHandler {
-    @SneakyThrows
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) {
-        response.sendRedirect("/login?failure");
+        response.setStatus(302);
+        response.setHeader("Location", "/login?failure");
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     protected void wrongusername(HttpServletResponse response) {
-        try {
-            response.sendRedirect("/login?error");
-        } catch (IOException ignores) {
-        }
+        response.setStatus(302);
+        response.setHeader("Location", "/login?error");
     }
 
-    @SneakyThrows
     @ExceptionHandler(CredentialException.class)
     protected void notSamePasswordRegistration( HttpServletResponse response) {
-        response.sendRedirect("/registration?pass");
+        response.setStatus(302);
+        response.setHeader("Location", "/registration?pass");
     }
 
-    @SneakyThrows
     @ExceptionHandler(InstanceAlreadyExistsException.class)
     protected void userExistsRegistration (HttpServletResponse response) {
-        response.sendRedirect("/registration?exists");
+        response.setStatus(302);
+        response.setHeader("Location", "/registration?exists");
     }
 
-    @SneakyThrows
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected void smallPasswordRegistration(HttpServletResponse response) {
-        response.sendRedirect("/registration?incorrect");
+        response.setStatus(302);
+        response.setHeader("Location", "/registration?incorrect");
     }
 }
