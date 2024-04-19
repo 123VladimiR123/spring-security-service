@@ -77,13 +77,13 @@
             <artifactId>commons-codec</artifactId>
             <version>1.16.1</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <version>42.7.3</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -127,6 +127,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <defaultGoal>package</defaultGoal>
     </build>
 
 </project>
