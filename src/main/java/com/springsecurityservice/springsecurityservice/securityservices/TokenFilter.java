@@ -1,5 +1,6 @@
 package com.springsecurityservice.springsecurityservice.securityservices;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -47,6 +48,11 @@ public class TokenFilter extends AbstractAuthenticationProcessingFilter {
                 return auth;
             } catch (UsernameNotFoundException ignored) {
                 throw new AuthenticationCredentialsNotFoundException("failed");
+            } catch (JwtException jwtException) {
+                Cookie cookieNull = new Cookie(tokenCookieName, "");
+                cookieNull.setMaxAge(0);
+                response.addCookie(cookieNull);
+                throw new AuthenticationCredentialsNotFoundException("re-login to update cookie");
             }
     }
 

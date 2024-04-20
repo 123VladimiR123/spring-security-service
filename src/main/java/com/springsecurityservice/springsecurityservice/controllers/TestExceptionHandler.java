@@ -25,7 +25,7 @@ public class TestExceptionHandler implements AccessDeniedHandler {
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    protected void wrongusername(HttpServletResponse response) {
+    protected void wrongUsername(HttpServletResponse response) {
         response.setStatus(302);
         response.setHeader("Location", prefix + "/login?error");
     }
