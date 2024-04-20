@@ -18,12 +18,11 @@ public class KafkaListenerSecurity {
         //Let request contain uuid + ' ' + cookie value
         //Response - same uuid + ' ' + user's email
         String[] parsed = data.split(" ");
-        String check;
+        String check = "";
             try {
-                check = jwtTokenUtil.validateJWT(parsed[1]);
-            } catch (JwtException ignored) {
-                check = "";
-            }
+                if (parsed.length > 1)
+                    check = jwtTokenUtil.validateJWT(parsed[1]);
+            } catch (JwtException ignored) {}
 
         kafkaSender.sendResponse(parsed[0] + check);
     }
