@@ -26,7 +26,8 @@ public class Config {
 
     @Value("${jwt.cookie.name}")
     private String cookieName;
-
+    @Value("${LOCALHOST_GATEWAY_ADDRESS}")
+    private String prefix;
 
     private final TokenFilter tokenFilter;
     private final CustomAuthenticationManager authenticationManager;
@@ -52,7 +53,7 @@ public class Config {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(log -> log
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl(prefix + "/login")
                         .addLogoutHandler((request, response, authentication) -> {
                             Cookie cookie = new Cookie(cookieName, "");
                             cookie.setMaxAge(0);
