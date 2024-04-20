@@ -42,7 +42,7 @@ public class Config {
                 .authenticationManager(authenticationManager)
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((request, response, authException) -> response
-                                .sendRedirect("/login?req")))
+                                .sendRedirect(prefix + "/login?req")))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/registration").anonymous()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
@@ -72,6 +72,6 @@ public class Config {
 
     @Bean
     protected AuthenticationFailureHandler handler() {
-        return new ForwardAuthenticationFailureHandler("/login?error");
+        return new ForwardAuthenticationFailureHandler(prefix + "/login?error");
     }
 }
