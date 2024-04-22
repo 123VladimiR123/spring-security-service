@@ -11,3 +11,7 @@ spring:
   cloud:
     config:
       fail-fast: true
+
+  kafka:
+    consumer:
+      group-id: "default"
