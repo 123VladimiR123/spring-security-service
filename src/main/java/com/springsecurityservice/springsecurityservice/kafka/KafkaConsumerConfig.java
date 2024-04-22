@@ -23,6 +23,7 @@ public class KafkaConsumerConfig {
         map.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         map.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        map.put(ConsumerConfig.GROUP_ID_CONFIG, "default");
         return new DefaultKafkaConsumerFactory<>(map);
     }
 }
