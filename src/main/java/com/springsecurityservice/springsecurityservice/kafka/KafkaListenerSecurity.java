@@ -24,6 +24,6 @@ public class KafkaListenerSecurity {
                     check = jwtTokenUtil.validateJWT(parsed[1]);
             } catch (JwtException ignored) {}
 
-        kafkaSender.sendResponse(parsed[0] + check);
+        kafkaSender.sendResponse(parsed[0] + ' ' + check);
     }
 }
