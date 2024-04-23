@@ -8,10 +8,10 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaTopic {
-    @Value("{custom.kafka.topic.request}")
+    @Value("${custom.kafka.topic.request}")
     private String topicRequest;
 
-    @Value("{custom.kafka.topic.response}")
+    @Value("${custom.kafka.topic.response}")
     private String topicResponse;
 
     @Bean
