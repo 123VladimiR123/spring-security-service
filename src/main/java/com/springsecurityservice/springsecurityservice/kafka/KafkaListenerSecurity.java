@@ -13,7 +13,7 @@ public class KafkaListenerSecurity {
     private final KafkaSender kafkaSender;
     private final JwtTokenUtil jwtTokenUtil;
 
-    @KafkaListener(topics = "#{'${custom.kafka.topic.request}'.split(',')}")
+    @KafkaListener(topics = "#{'${custom.kafka.topic.request}'.split(',')}", groupId = "default-security-listener")
     public void listener(@Payload String data) {
         //Let request contain uuid + ' ' + cookie value
         //Response - same uuid + ' ' + user's email
