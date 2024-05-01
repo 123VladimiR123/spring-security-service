@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -35,7 +36,7 @@ public class LoginController {
     @ResponseBody
     public ResponseEntity postLoginPage(@RequestParam("Username") String username,
                                         @RequestParam("Password") String password,
-                                        HttpServletResponse response){
+                                        HttpServletResponse response) throws IOException {
         Authentication token =
                 new UsernamePasswordAuthenticationToken(username, password, List.of(new SimpleGrantedAuthority("ROLE_USER")));
         token.setAuthenticated(false);
@@ -45,8 +46,7 @@ public class LoginController {
             throw new AuthenticationCredentialsNotFoundException("incorrect password");
         } else {
             response.addCookie(jwtTokenUtil.generateJWTCookie(token.getPrincipal().toString(), token.getCredentials().toString()));
-            response.setStatus(302);
-            response.setHeader("Location", prefix + "/");
+            response.sendRedirect(prefix + "/");
         }
 
         return ResponseEntity.ok(response);

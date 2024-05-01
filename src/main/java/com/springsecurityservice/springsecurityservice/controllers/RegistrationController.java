@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.CredentialException;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/registration")
@@ -33,12 +34,10 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ModelAndView regPost(@Validated @ModelAttribute CustomUserDTO userDTO,
-                                @NonNull HttpServletResponse response) throws CredentialException, InstanceAlreadyExistsException {
+    public void regPost(@Validated @ModelAttribute CustomUserDTO userDTO,
+                                @NonNull HttpServletResponse response) throws CredentialException, InstanceAlreadyExistsException, IOException {
         CustomUser user = userDetailsService.save(userDTO);
         response.addCookie(jwtTokenUtil.generateJWTCookie(user.getUsername(), user.getId().toString()));
-        response.setStatus(302);
-        response.setHeader("Location", prefix + "/");
-        return null;
+        response.sendRedirect(prefix + "/");
     }
 }
