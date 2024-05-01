@@ -54,12 +54,7 @@ public class Config {
                 .logout(log -> log
                         .logoutUrl("/logout")
                         .logoutSuccessUrl(prefix + "/login")
-                        .addLogoutHandler((request, response, authentication) -> {
-                            Cookie cookie = new Cookie(cookieName, "");
-                            cookie.setMaxAge(0);
-                            cookie.setPath("/");
-                            response.addCookie(cookie);
-                        }))
+                        .deleteCookies(cookieName))
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
