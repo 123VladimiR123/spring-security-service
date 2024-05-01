@@ -48,7 +48,7 @@ public class Config {
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers(HttpMethod.POST).permitAll()
-                        .requestMatchers(HttpMethod.GET,"/favicon.ico").permitAll()
+                        .requestMatchers("/favicon.ico", "/logout").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
