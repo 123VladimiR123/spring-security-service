@@ -51,7 +51,15 @@ public class Config {
                         .requestMatchers("/favicon.ico", "/logout").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
+                .logout(log -> log
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl(prefix + "/login")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            Cookie cookie = new Cookie(cookieName, "");
+                            cookie.setMaxAge(0);
+                            cookie.setPath("/");
+                            response.addCookie(cookie);
+                        }))
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
