@@ -51,10 +51,7 @@ public class Config {
                         .requestMatchers("/favicon.ico", "/logout").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
-                .logout(log -> log
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl(prefix + "/login")
-                        .deleteCookies(cookieName))
+                .logout(AbstractHttpConfigurer::disable)
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
